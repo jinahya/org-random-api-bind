@@ -1,9 +1,11 @@
 package com.github.jinahya.org.random.api.release2.bind.basic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jinahya.jsonrpc2.bind.RequestObject;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -15,6 +17,10 @@ public class GenerateIntegersRequestObject extends RequestObject<GenerateInteger
     @Setter
     @Getter
     public static class Params {
+
+        static boolean isValidBase(final int base) {
+            return base == 2 || base == 8 || base == 10 || base == 16;
+        }
 
         // -------------------------------------------------------------------------------------------------------------
         public static final int MIN_N = 0x01;
@@ -32,9 +38,11 @@ public class GenerateIntegersRequestObject extends RequestObject<GenerateInteger
         public static final int MAX_MAX = 0x1e9;
 
         // -------------------------------------------------------------------------------------------------------------
-        @AssertTrue
-        private boolean isBaseValid() {
-            return base == null || (base == 2 || base == 8 || base == 10 || base == 16);
+        @JsonIgnore
+        @JsonbTransient
+        @AssertTrue(message = "a non-null value of base attribute must be either 2, 8, 10, or 16")
+        public boolean isBaseValid() {
+            return base == null || isValidBase(base);
         }
 
         // -------------------------------------------------------------------------------------------------------------
@@ -92,6 +100,10 @@ public class GenerateIntegersRequestObject extends RequestObject<GenerateInteger
     }
 
     // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * A constant for {@code method} attribute. The value is {@value #METHOD}.
+     */
     public static final String METHOD = "generateIntegers";
 
     // -----------------------------------------------------------------------------------------------------------------
