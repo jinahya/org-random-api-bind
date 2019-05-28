@@ -1,8 +1,8 @@
 package com.github.jinahya.org.random.api.release2.bind.basic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.jinahya.jsonrpc2.bind.RequestObject;
-import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequestObject;
+import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequest;
+import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequestParams;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,14 +10,13 @@ import javax.json.bind.annotation.JsonbTransient;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-public class GenerateIntegersRequestObject extends RandomOrgRequestObject<GenerateIntegersRequestObject.Params> {
+public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRequest.Params> {
 
     @Setter
     @Getter
-    public static class Params {
+    public static class Params extends RandomOrgRequestParams {
 
         public static final int MIN_N = 0x01;
 
@@ -38,7 +37,6 @@ public class GenerateIntegersRequestObject extends RandomOrgRequestObject<Genera
         @Override
         public String toString() {
             return super.toString() + "{" +
-                   "apiKey=" + apiKey +
                    ",n=" + n +
                    ",min=" + min +
                    ",max=" + max +
@@ -51,18 +49,18 @@ public class GenerateIntegersRequestObject extends RandomOrgRequestObject<Genera
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof Params)) return false;
+            if (!super.equals(o)) return false;
             Params params = (Params) o;
-            return n == params.n &&
-                   min == params.min &&
-                   max == params.max &&
-                   Objects.equals(apiKey, params.apiKey) &&
-                   Objects.equals(replacement, params.replacement) &&
-                   Objects.equals(base, params.base);
+            return getN() == params.getN() &&
+                   getMin() == params.getMin() &&
+                   getMax() == params.getMax() &&
+                   Objects.equals(getReplacement(), params.getReplacement()) &&
+                   Objects.equals(getBase(), params.getBase());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(apiKey, n, min, max, replacement, base);
+            return Objects.hash(super.hashCode(), getN(), getMin(), getMax(), getReplacement(), getBase());
         }
 
         @JsonIgnore
@@ -71,9 +69,6 @@ public class GenerateIntegersRequestObject extends RandomOrgRequestObject<Genera
         public boolean isBaseValid() {
             return base == null || isValidBase(base);
         }
-
-        @NotNull
-        private String apiKey;
 
         @Min(MIN_N)
         @Max(MAX_N)
@@ -100,7 +95,7 @@ public class GenerateIntegersRequestObject extends RandomOrgRequestObject<Genera
     /**
      * Creates a new instance. This constructor sets the {@code method} attribute with {@value #METHOD}.
      */
-    public GenerateIntegersRequestObject() {
+    public GenerateIntegersRequest() {
         super();
         setMethod(METHOD);
     }
