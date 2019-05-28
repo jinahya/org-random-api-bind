@@ -2,6 +2,7 @@ package com.github.jinahya.org.random.api.release2.bind.basic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jinahya.jsonrpc2.bind.RequestObject;
+import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequestObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,40 +13,28 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-public class GenerateIntegersRequestObject extends RequestObject<GenerateIntegersRequestObject.Params> {
+public class GenerateIntegersRequestObject extends RandomOrgRequestObject<GenerateIntegersRequestObject.Params> {
 
     @Setter
     @Getter
     public static class Params {
 
-        static boolean isValidBase(final int base) {
-            return base == 2 || base == 8 || base == 10 || base == 16;
-        }
-
-        // -------------------------------------------------------------------------------------------------------------
         public static final int MIN_N = 0x01;
 
         public static final int MAX_N = 0x1e4;
 
-        // -------------------------------------------------------------------------------------------------------------
         public static final int MIN_MIN = -0x1e9;
 
         public static final int MAX_MIN = 0x1e9;
 
-        // -------------------------------------------------------------------------------------------------------------
         public static final int MIN_MAX = -0x1e9;
 
         public static final int MAX_MAX = 0x1e9;
 
-        // -------------------------------------------------------------------------------------------------------------
-        @JsonIgnore
-        @JsonbTransient
-        @AssertTrue(message = "a non-null value of base attribute must be either 2, 8, 10, or 16")
-        public boolean isBaseValid() {
-            return base == null || isValidBase(base);
+        static boolean isValidBase(final int base) {
+            return base == 2 || base == 8 || base == 10 || base == 16;
         }
 
-        // -------------------------------------------------------------------------------------------------------------
         @Override
         public String toString() {
             return super.toString() + "{" +
@@ -58,7 +47,6 @@ public class GenerateIntegersRequestObject extends RequestObject<GenerateInteger
                    '}';
         }
 
-        // -------------------------------------------------------------------------------------------------------------
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -77,7 +65,13 @@ public class GenerateIntegersRequestObject extends RequestObject<GenerateInteger
             return Objects.hash(apiKey, n, min, max, replacement, base);
         }
 
-        // -------------------------------------------------------------------------------------------------------------
+        @JsonIgnore
+        @JsonbTransient
+        @AssertTrue(message = "a non-null value of base attribute must be either 2, 8, 10, or 16")
+        public boolean isBaseValid() {
+            return base == null || isValidBase(base);
+        }
+
         @NotNull
         private String apiKey;
 
@@ -93,20 +87,15 @@ public class GenerateIntegersRequestObject extends RequestObject<GenerateInteger
         @Max(MAX_MAX)
         private int max;
 
-        // -------------------------------------------------------------------------------------------------------------
         private Boolean replacement;
 
         private Integer base;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
     /**
      * A constant for {@code method} attribute. The value is {@value #METHOD}.
      */
     public static final String METHOD = "generateIntegers";
-
-    // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Creates a new instance. This constructor sets the {@code method} attribute with {@value #METHOD}.

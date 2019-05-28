@@ -1,23 +1,17 @@
 package com.github.jinahya.org.random.api.release2.bind.basic;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.jinahya.jsonrpc2.bind.ErrorObject;
-import com.github.jinahya.jsonrpc2.bind.ResponseObject;
-import com.github.jinahya.org.random.api.release2.bind.IntegralBase;
+import com.github.jinahya.org.random.api.release2.bind.RandomOrgResponseObject;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.json.bind.annotation.JsonbTransient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.function.ToIntFunction;
-import java.util.stream.IntStream;
 
 public class GenerateIntegerSequencesResponseObject
-        extends ResponseObject<GenerateIntegerSequencesResponseObject.Result, ErrorObject.Undefined> {
+        extends RandomOrgResponseObject<GenerateIntegerSequencesResponseObject.Result> {
 
     // -----------------------------------------------------------------------------------------------------------------
     @Setter

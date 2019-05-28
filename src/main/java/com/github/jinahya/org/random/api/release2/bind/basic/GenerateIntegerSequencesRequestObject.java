@@ -1,6 +1,7 @@
 package com.github.jinahya.org.random.api.release2.bind.basic;
 
 import com.github.jinahya.jsonrpc2.bind.RequestObject;
+import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequestObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,8 @@ import java.util.Objects;
 
 import static com.github.jinahya.org.random.api.release2.bind.basic.GenerateIntegersRequestObject.Params.isValidBase;
 
-public class GenerateIntegerSequencesRequestObject extends RequestObject<GenerateIntegerSequencesRequestObject.Params> {
+public class GenerateIntegerSequencesRequestObject
+        extends RandomOrgRequestObject<GenerateIntegerSequencesRequestObject.Params> {
 
     @Setter
     @Getter
