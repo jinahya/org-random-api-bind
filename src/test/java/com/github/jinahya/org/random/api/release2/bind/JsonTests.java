@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+import static com.github.jinahya.org.random.api.release2.bind.BeanValidations.requireValid;
+
 @Slf4j
 public final class JsonTests {
 
@@ -13,12 +15,14 @@ public final class JsonTests {
         {
             final T value = JsonbUtils.fromResource(resourceName, valueType);
             log.debug("value: {}", value);
+            requireValid(value);
             final String json = JsonbUtils.JSONB.toJson(value);
             log.debug("json: {}", json);
         }
         {
             final T value = JacksonUtils.readResource(resourceName, valueType);
             log.debug("value: {}", value);
+            requireValid(value);
             final String json = JacksonUtils.OBJECT_MAPPER.writeValueAsString(value);
             log.debug("json: {}", json);
         }

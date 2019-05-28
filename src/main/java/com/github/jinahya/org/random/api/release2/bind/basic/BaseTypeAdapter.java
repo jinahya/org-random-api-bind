@@ -13,9 +13,6 @@ public class BaseTypeAdapter implements JsonbAdapter<Base, Integer> {
 
     @Override
     public Base adaptFromJson(final Integer base) throws Exception {
-        if (base == null) {
-            return null;
-        }
-        return Base.valueOf(base);
+        return ofNullable(base).map(Base::valueOf).orElse(null);
     }
 }
