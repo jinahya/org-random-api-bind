@@ -6,9 +6,11 @@ import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequest;
 import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequestParams;
 import lombok.Getter;
 import lombok.Setter;
+import sun.reflect.generics.tree.BaseType;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -57,7 +59,7 @@ public class GenerateIntegerSequencesRequest
                        getMin() == element.getMin() &&
                        getMax() == element.getMax() &&
                        Objects.equals(getReplacement(), element.getReplacement()) &&
-                       Objects.equals(getBase(), element.getBase());
+                       getBase() == element.getBase();
             }
 
             @Override
@@ -88,9 +90,10 @@ public class GenerateIntegerSequencesRequest
             @Getter
             private Boolean replacement;
 
+            @JsonbTypeAdapter(BaseTypeAdapter.class)
             @Setter
             @Getter
-            private Integer base;
+            private Base base;
         }
 
         public static final int MIN_N = 1;

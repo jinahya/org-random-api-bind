@@ -9,7 +9,6 @@ import java.io.IOException;
 @Slf4j
 public class GenerateIntegersTest {
 
-    // -----------------------------------------------------------------------------------------------------------------
     @Test
     void request01() throws IOException {
         JsonTests.doWithResource(
@@ -18,47 +17,23 @@ public class GenerateIntegersTest {
         );
     }
 
-//    @Test
-//    void response01() throws IOException {
-//        JsonTests.doWithResource(
-//                "/basic/generateIntegers_01_response.json",
-//                GenerateIntegersResponse.class,
-//                value -> {
-//                    log.debug("value: {}", value);
-//                    final GenerateIntegersResponse.Result.Random random = value.getResult().getRandom();
-//                    random.getDataStream((Integer) null).forEach(v -> {
-//                        log.debug("datum: {}", v);
-//                    });
-//                },
-//                json -> {
-//                    log.debug("json: {}", json);
-//                }
-//        );
-//    }
-
-    // -----------------------------------------------------------------------------------------------------------------
     @Test
     void request02() throws IOException {
-        JsonTests.doWithResource("/basic/generateIntegers_02_request.json", GenerateIntegersRequest.class, null,
-                                 null);
+        JsonTests.doWithResource("/basic/generateIntegers_02_request.json", GenerateIntegersRequest.class);
     }
 
     @Test
     void response02() throws IOException {
-        JsonTests.doWithResource("/basic/generateIntegers_02_response.json", GenerateIntegersResponse.class, null,
-                                 null);
+        JsonTests.doWithResource("/basic/generateIntegers_02_response.json", GenerateIntegersResponse.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
     @Test
     void request03() throws IOException {
-        JsonTests.doWithResource("/basic/generateIntegers_03_request.json", GenerateIntegersRequest.class, null,
-                                 null);
+        JsonTests.doWithResource("/basic/generateIntegers_03_request.json", GenerateIntegersRequest.class);
     }
 
     @Test
     void response03() throws IOException {
-        JsonTests.doWithResource("/basic/generateIntegers_03_response.json", GenerateIntegersResponse.class, null,
-                                 null);
+        JsonTests.doWithResource("/basic/generateIntegers_03_response.json", GenerateIntegersResponse.class);
     }
 }

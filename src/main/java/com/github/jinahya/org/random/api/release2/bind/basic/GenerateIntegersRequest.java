@@ -1,21 +1,20 @@
 package com.github.jinahya.org.random.api.release2.bind.basic;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequest;
 import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequestParams;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.json.bind.annotation.JsonbTransient;
-import javax.validation.constraints.AssertTrue;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.Objects;
 
+/**
+ * The request object for {@value #METHOD}.
+ */
 public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRequest.Params> {
 
-    @Setter
-    @Getter
     public static class Params extends RandomOrgRequestParams {
 
         public static final int MIN_N = 0x01;
@@ -29,10 +28,6 @@ public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRe
         public static final int MIN_MAX = -0x1e9;
 
         public static final int MAX_MAX = 0x1e9;
-
-        static boolean isValidBase(final int base) {
-            return base == 2 || base == 8 || base == 10 || base == 16;
-        }
 
         @Override
         public String toString() {
@@ -55,7 +50,7 @@ public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRe
                    getMin() == params.getMin() &&
                    getMax() == params.getMax() &&
                    Objects.equals(getReplacement(), params.getReplacement()) &&
-                   Objects.equals(getBase(), params.getBase());
+                   getBase() == params.getBase();
         }
 
         @Override
@@ -63,28 +58,32 @@ public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRe
             return Objects.hash(super.hashCode(), getN(), getMin(), getMax(), getReplacement(), getBase());
         }
 
-        @JsonIgnore
-        @JsonbTransient
-        @AssertTrue(message = "a non-null value of base attribute must be either 2, 8, 10, or 16")
-        public boolean isBaseValid() {
-            return base == null || isValidBase(base);
-        }
-
         @Min(MIN_N)
         @Max(MAX_N)
+        @Setter
+        @Getter
         private int n;
 
         @Min(MIN_MIN)
         @Max(MAX_MIN)
+        @Setter
+        @Getter
         private int min;
 
         @Min(MIN_MAX)
         @Max(MAX_MAX)
+        @Setter
+        @Getter
         private int max;
 
+        @Setter
+        @Getter
         private Boolean replacement;
 
-        private Integer base;
+        @JsonbTypeAdapter(BaseTypeAdapter.class)
+        @Setter
+        @Getter
+        private Base base;
     }
 
     /**
