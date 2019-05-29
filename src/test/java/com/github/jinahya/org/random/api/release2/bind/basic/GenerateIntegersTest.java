@@ -11,10 +11,12 @@ public class GenerateIntegersTest {
 
     @Test
     void request01() throws IOException {
-        JsonTests.doWithResource(
-                "/basic/generateIntegers_01_request.json",
-                GenerateIntegersRequest.class
-        );
+        JsonTests.doWithResource("/basic/generateIntegers_01_request.json", GenerateIntegersRequest.class);
+    }
+
+    @Test
+    void response01() throws IOException {
+        JsonTests.doWithResource("/basic/generateIntegers_01_response.json", GenerateIntegersResponse.class);
     }
 
     @Test

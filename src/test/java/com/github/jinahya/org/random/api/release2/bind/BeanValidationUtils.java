@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class BeanValidations {
+public final class BeanValidationUtils {
 
     public static final ValidatorFactory VALIDATION_FACTORY = Validation.buildDefaultValidatorFactory();
 
@@ -49,7 +49,7 @@ public final class BeanValidations {
         return object;
     }
 
-    private BeanValidations() {
+    private BeanValidationUtils() {
         super();
     }
 }

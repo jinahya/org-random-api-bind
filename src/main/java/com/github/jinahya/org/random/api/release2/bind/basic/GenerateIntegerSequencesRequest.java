@@ -6,7 +6,6 @@ import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequest;
 import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequestParams;
 import lombok.Getter;
 import lombok.Setter;
-import sun.reflect.generics.tree.BaseType;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
