@@ -1,4 +1,4 @@
-package com.github.jinahya.org.random.api.release2.bind;
+package com.github.jinahya.org.random.api.r2.bind;
 
 import java.io.Serializable;
 

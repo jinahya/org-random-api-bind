@@ -1,9 +1,9 @@
-package com.github.jinahya.org.random.api.release2.bind.basic;
+package com.github.jinahya.org.random.api.r2.bind.basic;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequest;
-import com.github.jinahya.org.random.api.release2.bind.RandomOrgRequestParams;
+import com.github.jinahya.org.random.api.r2.bind.RandomOrgRequest;
+import com.github.jinahya.org.random.api.r2.bind.RandomOrgRequestParams;
 import lombok.Getter;
 import lombok.Setter;
 

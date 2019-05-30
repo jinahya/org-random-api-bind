@@ -1,4 +1,4 @@
-package com.github.jinahya.org.random.api.release2.bind;
+package com.github.jinahya.org.random.api.r2.bind;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

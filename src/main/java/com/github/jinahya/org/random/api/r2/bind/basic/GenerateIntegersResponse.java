@@ -1,8 +1,8 @@
-package com.github.jinahya.org.random.api.release2.bind.basic;
+package com.github.jinahya.org.random.api.r2.bind.basic;
 
-import com.github.jinahya.org.random.api.release2.bind.Random;
-import com.github.jinahya.org.random.api.release2.bind.RandomOrgResponse;
-import com.github.jinahya.org.random.api.release2.bind.RandomOrgResponseResult;
+import com.github.jinahya.org.random.api.r2.bind.Random;
+import com.github.jinahya.org.random.api.r2.bind.RandomOrgResponse;
+import com.github.jinahya.org.random.api.r2.bind.RandomOrgResponseResult;
 import lombok.Getter;
 import lombok.Setter;
 

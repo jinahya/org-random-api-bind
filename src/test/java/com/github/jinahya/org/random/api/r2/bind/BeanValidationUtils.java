@@ -1,4 +1,6 @@
-package com.github.jinahya.org.random.api.release2.bind;
+package com.github.jinahya.org.random.api.r2.bind;
+
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -14,7 +16,12 @@ import java.util.function.Supplier;
 
 public final class BeanValidationUtils {
 
-    public static final ValidatorFactory VALIDATION_FACTORY = Validation.buildDefaultValidatorFactory();
+//    public static final ValidatorFactory VALIDATION_FACTORY = Validation.buildDefaultValidatorFactory();
+
+    public static final ValidatorFactory VALIDATION_FACTORY = Validation.byDefaultProvider()
+            .configure()
+            .messageInterpolator(new ParameterMessageInterpolator())
+            .buildValidatorFactory();
 
     public static <R> R applyValidator(final Function<? super Validator, ? extends R> function) {
         return function.apply(VALIDATION_FACTORY.getValidator());
@@ -41,7 +48,7 @@ public final class BeanValidationUtils {
         return applyValidator(v -> v.validate(object));
     }
 
-    public static  <T> T requireValid(final T object) {
+    public static <T> T requireValid(final T object) {
         final Set<ConstraintViolation<T>> violations = validate(object);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);

@@ -1,4 +1,4 @@
-package com.github.jinahya.org.random.api.release2.bind.basic;
+package com.github.jinahya.org.random.api.r2.bind.basic;
 
 final class Bases {
 

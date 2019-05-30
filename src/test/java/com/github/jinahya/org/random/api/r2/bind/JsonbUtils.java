@@ -1,4 +1,4 @@
-package com.github.jinahya.org.random.api.release2.bind;
+package com.github.jinahya.org.random.api.r2.bind;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
