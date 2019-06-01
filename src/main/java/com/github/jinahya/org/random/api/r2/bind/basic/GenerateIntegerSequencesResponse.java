@@ -3,16 +3,12 @@ package com.github.jinahya.org.random.api.r2.bind.basic;
 import com.github.jinahya.org.random.api.r2.bind.RandomOrgResponse;
 import com.github.jinahya.org.random.api.r2.bind.RandomOrgResponseResult;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static com.github.jinahya.org.random.api.r2.bind.basic.GenerateIntegerSequencesRequest.Params.Element.MAX_LENGTH;
 import static com.github.jinahya.org.random.api.r2.bind.basic.GenerateIntegerSequencesRequest.Params.Element.MIN_LENGTH;
@@ -27,21 +23,6 @@ public class GenerateIntegerSequencesResponse
 
         public static class Random {
 
-            static boolean isEachElementInEachListInDataEitherStringOrNumber(@NonNull final List<List<Object>> data) {
-                for (final List<Object> e : data) {
-                    if (!GenerateIntegersResponse.Result.Random.isEachElementInDataEitherStringOrNumber(e)) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            static Stream<IntStream> getDataStream(@NonNull final List<List<Object>> data,
-                                                   @NotNull final List<Base> base) {
-                return IntStream.range(0, data.size())
-                        .mapToObj(i -> GenerateIntegersResponse.Result.Random.getDataStream(data.get(i), base.get(i)));
-            }
-
             @Override
             public String toString() {
                 return super.toString() + "{" +
@@ -49,18 +30,6 @@ public class GenerateIntegerSequencesResponse
                        ",completionTime=" + completionTime +
                        "}";
             }
-
-            @AssertTrue
-            private boolean isEachElementInEachListInDataValid() {
-                if (data == null) {
-                    return true;
-                }
-                return isEachElementInEachListInDataEitherStringOrNumber(data);
-            }
-
-//            public Stream<IntStream> getDataStream(@NotNull final List<Base> base) {
-//                return getDataStream(getData(), base);
-//            }
 
             public void setData(final List<List<Object>> data) {
                 this.data = data;

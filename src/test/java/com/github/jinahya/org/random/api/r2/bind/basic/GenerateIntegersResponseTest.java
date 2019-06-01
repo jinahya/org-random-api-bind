@@ -30,8 +30,6 @@ class GenerateIntegersResponseTest
             assertNotNull(result);
             final GenerateIntegersResponse.Result.Random random = result.getRandom();
             assertNotNull(random);
-            final IntStream data = random.getDataStream(BASE.get());
-            log.debug("data: {}", data.toArray());
         });
     }
 
