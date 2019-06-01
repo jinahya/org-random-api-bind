@@ -1,4 +1,4 @@
-package com.github.jinahya.org.random.api.release2.bind;
+package com.github.jinahya.org.random.api.r2.bind;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -42,11 +42,13 @@ public final class JacksonUtils {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    public static <T> T readResource(final String resourceName, final Class<? extends T> valueType)
-            throws IOException {
+    public static <T> T value(final String resourceName, final Class<? extends T> valueType) throws IOException {
         try (InputStream resourceStream = JacksonUtils.class.getResourceAsStream(resourceName)) {
             assertNotNull(resourceStream);
-            return OBJECT_MAPPER.readValue(resourceStream, valueType);
+            final T value = OBJECT_MAPPER.readValue(resourceStream, valueType);
+            log.debug("value: {}", value);
+            log.debug("json: {}", OBJECT_MAPPER.writeValueAsString(value));
+            return value;
         }
     }
 
