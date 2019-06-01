@@ -5,18 +5,20 @@ import com.github.jinahya.org.random.api.r2.bind.RandomOrgRequestParams;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.Valid;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
+
+@Slf4j
 public class GenerateIntegerSequencesRequest
         extends RandomOrgRequest<GenerateIntegerSequencesRequest.Params> {
 
@@ -58,7 +60,7 @@ public class GenerateIntegerSequencesRequest
             } else {
                 params.setLength(elements.stream().map(Element::getLength).collect(toList()));
                 params.setMin(elements.stream().map(Element::getMin).collect(toList()));
-                params.setMax(elements.stream().map(Element::geMax).collect(toList()));
+                params.setMax(elements.stream().map(Element::getMax).collect(toList()));
                 params.setReplacement(elements.stream().map(Element::getReplacement).collect(toList()));
                 params.setBase(elements.stream().map(Element::getBase).collect(toList()));
             }
@@ -72,196 +74,126 @@ public class GenerateIntegerSequencesRequest
         @Override
         public String toString() {
             return super.toString() + "{" +
-                   "elements=" + elements +
+                   "n=" + n +
+                   ",length=" + length +
+                   ",min=" + min +
+                   ",max=" + max +
+                   ",replacement=" + replacement +
+                   ",base=" + base +
                    "}";
         }
 
-        private boolean isLengthValid(final int length) {
-            return length < Element.MIN_LENGTH || length > Element.MAX_LENGTH;
-        }
-
-        private boolean isValidInt(final int value, final int min, final int max) {
-            return value >= min || value <= max;
-        }
-
-        private boolean isValidInt(final Object value, final int min, final int max) {
+        private Object set(final Object value) {
             if (value == null) {
-                return true;
+                return null;
             }
-            if (value instanceof Integer) {
-                if (!isValidInt((int) value, min, max)) {
-                    return true;
-                }
-            } else if (value instanceof Number) {
-                if (!isValidInt(((Number) value).intValue(), min, max)) {
-                    return false;
-                }
+            if (value instanceof Number) {
+                return ((Number) value).intValue();
             }
-            return false;
-        }
-
-        private boolean isValidInts(final Object value, final int min, final int max) {
             if (value.getClass().isArray()) {
-                for (final Object element : (Object[]) value) {
-                    if (!isValidInt(element, min, max)) {
-                        return false;
-                    }
+                final int length = Array.getLength(value);
+                final List<Integer> list = new ArrayList<>(length);
+                for (int i = 0; i < length; i++) {
+                    list.add(((Number) Array.get(value, i)).intValue());
                 }
-            } else if (value instanceof Collection<?>) {
-                for (final Object element : (Collection<?>) value) {
-                    if (!isValidInt(element, min, max)) {
-                        return false;
-                    }
-                }
+                return list;
             }
-            return false;
-        }
-
-        @AssertTrue
-        private boolean isLengthValid() {
-            if (length == null) {
-                return true;
+            assert value instanceof Collection<?>;
+            final List<Integer> list = new ArrayList<>(((Collection<?>) value).size());
+            for (final Object element : ((Collection<?>) value)) {
+                list.add(((Number) element).intValue());
             }
-            if (length instanceof Number) {
-                if (!isLengthValid(((Number) length).intValue())) {
-                    return false;
-                }
-            }
-            if (length.getClass().isArray()) {
-                final int l = Array.getLength(length);
-            }
-            if (elements == null) {
-                return null;
-            }
-            if (getElements().size() == 1) {
-                return elements.get(0).length;
-            }
-            return getElements().stream().mapToInt(Element::getLength).toArray();
-        }
-
-        @NotNull
-        public Object getMin() {
-            if (elements == null) {
-                return null;
-            }
-            if (elements == null || elements.isEmpty()) {
-                throw new IllegalStateException("empty elements");
-            }
-            if (getElements().size() == 1) {
-                return elements.get(0).getMin();
-            }
-            return getElements().stream().mapToInt(Element::getMin).toArray();
-        }
-
-        public Object getMax() {
-            if (elements == null || elements.isEmpty()) {
-                throw new IllegalStateException("empty elements");
-            }
-            if (getElements().size() == 1) {
-                return elements.get(0).getMax();
-            }
-            return getElements().stream().mapToInt(Element::getMax).toArray();
-        }
-
-        public Object getReplacement() {
-            if (elements == null || elements.isEmpty()) {
-                throw new IllegalStateException("empty elements");
-            }
-            if (getElements().size() == 1) {
-                return elements.get(0).getReplacement();
-            }
-            return getElements().stream().map(Element::getReplacement).toArray();
-        }
-
-        public Object getBase() {
-            if (elements == null || elements.isEmpty()) {
-                throw new IllegalStateException("empty elements");
-            }
-            if (getElements().size() == 1) {
-                return elements.get(0).getBase();
-            }
-            return getElements().stream().map(Element::getBase).toArray();
-        }
-
-        private List<Element> getElements() {
-            if (elements == null) {
-                elements = new ArrayList<>();
-            }
-            return elements;
-        }
-
-        /**
-         * Adds specified element to this params.
-         *
-         * @param element the element to add
-         */
-        public void addElement(final Element element) {
-            if (elements == null) {
-                elements = new ArrayList<>();
-            }
-            getElements().add(element);
-        }
-
-        /**
-         * Adds all elements in specified collection to this params.
-         *
-         * @param elements the collection whose elements are added
-         */
-        public void addAllElements(final Collection<? extends Element> elements) {
-            getElements().addAll(elements);
+            return list;
         }
 
         public void setLength(final Object length) {
-            if (length == null) {
-                this.length = null;
-                return;
-            }
-            if (length instanceof Number) {
-                this.length = ((Number) length).intValue();
-                return;
-            }
-            if (length.getClass().isArray()) {
-                final int l = Array.getLength(length);
-                this.length = Array.newInstance(int.class, l);
-                final int l = Array.getLength(this.length);
-                for (int i = 0; i < l; i++) {
-                    Array.set(this.length, i, ((Number) Array.get(this.length, i)).intValue()); // TODO: 2019-06-01 check!!!
-                }
-                return;
-            }
-            if (this.length instanceof Collection<?>) {
-                for (final Object element : ((Collection<?>) this.length)) {
-                }
-            }
+            this.length = set(length);
         }
 
-        private transient List<@Valid @NotNull Element> elements;
+        public void setMin(final Object min) {
+            this.min = set(min);
+        }
 
-        @Size(min = MIN_N, max = MAX_N)
+        public void setMax(final Object max) {
+            this.max = set(max);
+        }
+
+        public void setReplacement(final Object replacement) {
+            if (replacement == null) {
+                this.replacement = null;
+                return;
+            }
+            if (replacement instanceof Boolean) {
+                this.replacement = replacement;
+                return;
+            }
+            if (replacement.getClass().isArray()) {
+                final int length = Array.getLength(replacement);
+                final List<Boolean> list = new ArrayList<>(length);
+                for (int i = 0; i < length; i++) {
+                    list.add((Boolean) Array.get(replacement, i));
+                }
+                this.replacement = list;
+            }
+            if (true) {
+                this.replacement = replacement;
+                return;
+            }
+            assert replacement instanceof Collection<?>;
+            final List<Boolean> list = new ArrayList<>(((Collection<?>) replacement).size());
+            for (final Object element : ((Collection<?>) replacement)) {
+                list.add((Boolean) element);
+            }
+            this.replacement = list;
+        }
+
+        public void setBase(final Object base) {
+            if (base == null) {
+                this.base = null;
+                return;
+            }
+            if (base instanceof Number) {
+                this.base = Base.valueOf(((Number) base).intValue());
+                return;
+            }
+            if (base.getClass().isArray()) {
+                final int length = Array.getLength(base);
+                final List<Base> list = new ArrayList<>(length);
+                for (int i = 0; i < length; i++) {
+                    final Number number = (Number) Array.get(base, i);
+                    list.add(ofNullable(number).map(Number::intValue).map(Base::valueOf).orElse(null));
+                }
+                this.base = list;
+            }
+            assert base instanceof Collection<?>;
+            final List<Base> list = new ArrayList<>(((Collection<?>) base).size());
+            for (final Object element : ((Collection<?>) base)) {
+                list.add(ofNullable(element).map(v -> ((Number) v).intValue()).map(Base::valueOf).orElse(null));
+            }
+            this.base = list;
+        }
+
+        @Max(MAX_N)
+        @Min(MIN_N)
         @Setter
         @Getter
         private int n;
 
         @NotNull
-        @Setter
         @Getter
         private Object length;
 
         @NotNull
-        @Setter
         @Getter
         private Object min;
 
         @NotNull
-        @Setter
         @Getter
         private Object max;
 
-        @Setter
         @Getter
         private Object replacement;
 
-        @Setter
         @Getter
         private Object base;
     }

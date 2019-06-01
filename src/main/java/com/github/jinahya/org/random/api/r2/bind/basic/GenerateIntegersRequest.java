@@ -10,6 +10,7 @@ import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 /**
  * The request object for {@value #METHOD}.
@@ -98,5 +99,11 @@ public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRe
     public GenerateIntegersRequest() {
         super();
         setMethod(METHOD);
+    }
+
+    @Pattern(regexp = METHOD)
+    @Override
+    public String getMethod() {
+        return super.getMethod();
     }
 }

@@ -19,6 +19,7 @@ import static com.github.jinahya.org.random.api.r2.bind.basic.GenerateIntegerSeq
 import static com.github.jinahya.org.random.api.r2.bind.basic.GenerateIntegersRequest.Params.MIN_N;
 import static java.lang.Integer.parseInt;
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 
 /**
  * The response class for {@link GenerateIntegersRequest}.
@@ -50,6 +51,17 @@ public class GenerateIntegersResponse extends RandomOrgResponse<GenerateIntegers
                 });
             }
 
+            static List<Object> data(@NonNull final List<Object> data) {
+                return data.stream()
+                        .map(v -> {
+                            if (v instanceof String) {
+                                return v;
+                            }
+                            return ((Number) v).intValue();
+                        })
+                        .collect(toList());
+            }
+
             @Override
             public String toString() {
                 return super.toString() + "{" +
@@ -75,10 +87,16 @@ public class GenerateIntegersResponse extends RandomOrgResponse<GenerateIntegers
                 return getDataStream(data, base);
             }
 
+            public void setData(final List<Object> data) {
+                this.data = data;
+                if (this.data != null) {
+                    this.data = data(this.data);
+                }
+            }
+
             @Size(min = MIN_N, max = MAX_N)
             @NotNull
             @Setter
-            @Getter
             private List<@NotNull Object> data;
 
             @NotNull

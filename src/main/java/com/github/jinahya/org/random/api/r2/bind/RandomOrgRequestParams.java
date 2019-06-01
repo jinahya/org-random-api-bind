@@ -4,13 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Setter
 @Getter
-public abstract class RandomOrgRequestParams implements Serializable {
+public abstract class RandomOrgRequestParams {
 
     @Override
     public String toString() {
