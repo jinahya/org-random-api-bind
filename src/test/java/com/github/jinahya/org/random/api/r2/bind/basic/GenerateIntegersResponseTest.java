@@ -7,18 +7,16 @@ import org.junit.jupiter.api.TestInfo;
 
 import java.io.IOException;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Slf4j
-class GenerateIntegersResponseTest
-        extends RandomOrgResponseTest<GenerateIntegersResponse, GenerateIntegersResponse.Result> {
+class GenerateIntegersResponseTest extends RandomOrgResponseTest<GenerateIntegersResponse> {
 
     static final ThreadLocal<Base> BASE = new ThreadLocal<>();
 
     GenerateIntegersResponseTest() {
-        super(GenerateIntegersResponse.class, GenerateIntegersResponse.Result.class);
+        super(GenerateIntegersResponse.class);
     }
 
     @Override

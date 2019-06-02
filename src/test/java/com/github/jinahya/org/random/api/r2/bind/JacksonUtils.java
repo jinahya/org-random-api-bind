@@ -44,7 +44,7 @@ public final class JacksonUtils {
     // -----------------------------------------------------------------------------------------------------------------
     public static <T> T value(final String resourceName, final Class<? extends T> valueType) throws IOException {
         try (InputStream resourceStream = JacksonUtils.class.getResourceAsStream(resourceName)) {
-            assertNotNull(resourceStream);
+            assertNotNull(resourceStream, "no resource stream for " + resourceName);
             final T value = OBJECT_MAPPER.readValue(resourceStream, valueType);
             log.debug("value: {}", value);
             log.debug("json: {}", OBJECT_MAPPER.writeValueAsString(value));

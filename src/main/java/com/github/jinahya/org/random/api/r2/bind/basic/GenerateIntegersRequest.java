@@ -70,8 +70,14 @@ public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRe
      */
     public static class Params extends AbstractElement {
 
+        /**
+         * The minimum value for {@code n} attribute. The value is {@value #MIN_N}.
+         */
         public static final int MIN_N = 1;
 
+        /**
+         * The maximum value for {@code n} attribute. The value is {@value #MAX_N}.
+         */
         public static final int MAX_N = 10000; // 1e4
 
         @Override

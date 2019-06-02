@@ -8,11 +8,10 @@ import java.io.IOException;
 import java.util.function.Consumer;
 
 @Slf4j
-class GenerateIntegerSequencesRequestTest
-        extends RandomOrgRequestTest<GenerateIntegerSequencesRequest, GenerateIntegerSequencesRequest.Params> {
+class GenerateIntegerSequencesRequestTest extends RandomOrgRequestTest<GenerateIntegerSequencesRequest> {
 
     GenerateIntegerSequencesRequestTest() {
-        super(GenerateIntegerSequencesRequest.class, GenerateIntegerSequencesRequest.Params.class);
+        super(GenerateIntegerSequencesRequest.class);
     }
 
     @Override

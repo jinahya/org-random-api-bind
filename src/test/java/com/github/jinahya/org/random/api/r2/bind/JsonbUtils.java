@@ -1,5 +1,6 @@
 package com.github.jinahya.org.random.api.r2.bind;
 
+import com.github.jinahya.jsonrpc.bind.v2.JsonrpcObject;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.json.bind.Jsonb;
@@ -12,6 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Slf4j
@@ -45,7 +47,7 @@ public final class JsonbUtils {
     // -----------------------------------------------------------------------------------------------------------------
     public static <T> T value(final String resourceName, final Class<? extends T> valueType) throws IOException {
         try (InputStream resourceStream = JacksonUtils.class.getResourceAsStream(resourceName)) {
-            assertNotNull(resourceStream);
+            assertNotNull(resourceStream, "no resource stream for " + resourceName);
             final T value = applyJsonb(v -> v.fromJson(resourceStream, valueType));
             log.debug("value: {}", value);
             log.debug("json: {}", JSONB.toJson(value));

@@ -8,29 +8,24 @@ import java.util.function.Supplier;
 import static com.github.jinahya.org.random.api.r2.bind.BeanValidationUtils.requireValid;
 import static java.util.Objects.requireNonNull;
 
-public abstract class RandomOrgRequestTest<
-        RequestType extends RandomOrgRequest<ParamsType>, ParamsType extends RandomOrgRequestParams> {
+public abstract class RandomOrgRequestTest<T extends RandomOrgRequest<?>> {
 
-    public RandomOrgRequestTest(final Class<? extends RequestType> requestClass,
-                                final Class<? extends ParamsType> paramsClass) {
+    public RandomOrgRequestTest(final Class<? extends T> requestClass) {
         super();
         this.requestClass = requireNonNull(requestClass, "requestClass is null");
-        this.paramsClass = requireNonNull(paramsClass, "paramsClass is null");
     }
 
-    protected void acceptValueFromResource(final String name, final Consumer<? super RequestType> consumer)
+    protected void acceptValueFromResource(final String name, final Consumer<? super T> consumer)
             throws IOException {
         consumer.accept(requireValid(JsonbUtils.value(name, requestClass)));
         consumer.accept(requireValid(JacksonUtils.value(name, requestClass)));
     }
 
     protected <U> void acceptValueFromResource(final String name, final Supplier<? extends U> supplier,
-                                               final BiConsumer<? super RequestType, ? super U> consumer)
+                                               final BiConsumer<? super T, ? super U> consumer)
             throws IOException {
         acceptValueFromResource(name, v -> consumer.accept(v, supplier.get()));
     }
 
-    protected final Class<? extends RequestType> requestClass;
-
-    protected final Class<? extends ParamsType> paramsClass;
+    protected final Class<? extends T> requestClass;
 }

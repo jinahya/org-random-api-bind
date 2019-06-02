@@ -5,13 +5,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.function.Consumer;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
-class GenerateIntegersRequestTest
-        extends RandomOrgRequestTest<GenerateIntegersRequest, GenerateIntegersRequest.Params> {
+class GenerateIntegersRequestTest extends RandomOrgRequestTest<GenerateIntegersRequest> {
 
     GenerateIntegersRequestTest() {
-        super(GenerateIntegersRequest.class, GenerateIntegersRequest.Params.class);
+        super(GenerateIntegersRequest.class);
+    }
+
+    @Override
+    protected void acceptValueFromResource(final String name, final Consumer<? super GenerateIntegersRequest> consumer)
+            throws IOException {
+        super.acceptValueFromResource(name, v -> {
+            assertEquals("generateIntegers", v.getMethod());
+            consumer.accept(v);
+        });
     }
 
     @Test

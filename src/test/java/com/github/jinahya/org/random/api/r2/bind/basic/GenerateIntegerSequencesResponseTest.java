@@ -14,13 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 @Slf4j
-class GenerateIntegerSequencesResponseTest
-        extends RandomOrgResponseTest<GenerateIntegerSequencesResponse, GenerateIntegerSequencesResponse.Result> {
+class GenerateIntegerSequencesResponseTest extends RandomOrgResponseTest<GenerateIntegerSequencesResponse> {
 
     static final ThreadLocal<Base> BASE = new ThreadLocal<>();
 
     GenerateIntegerSequencesResponseTest() {
-        super(GenerateIntegerSequencesResponse.class, GenerateIntegerSequencesResponse.Result.class);
+        super(GenerateIntegerSequencesResponse.class);
     }
 
     @Override
