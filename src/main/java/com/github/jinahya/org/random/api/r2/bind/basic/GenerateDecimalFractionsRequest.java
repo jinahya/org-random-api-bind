@@ -44,4 +44,16 @@ public class GenerateDecimalFractionsRequest extends RandomOrgRequest<GenerateDe
         @Getter
         private Boolean replacement;
     }
+
+    /**
+     * The value for {@code method}. The value is {@value #METHOD}.
+     */
+    public static final String METHOD = "generateDecimalFractions";
+
+    /**
+     * Creates a new instance.
+     */
+    public GenerateDecimalFractionsRequest() {
+        super(METHOD);
+    }
 }

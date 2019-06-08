@@ -73,14 +73,14 @@ public class GenerateIntegerSequencesRequest
 
         @Override
         public String toString() {
-            return super.toString() + "{" +
-                   "n=" + n +
-                   ",length=" + length +
-                   ",min=" + min +
-                   ",max=" + max +
-                   ",replacement=" + replacement +
-                   ",base=" + base +
-                   "}";
+            return super.toString() + "{"
+                   + "n=" + n
+                   + ",length=" + length
+                   + ",min=" + min
+                   + ",max=" + max
+                   + ",replacement=" + replacement
+                   + ",base=" + base
+                   + "}";
         }
 
         private Object set(final Object value) {
@@ -201,13 +201,12 @@ public class GenerateIntegerSequencesRequest
     /**
      * The fixed value for {@code method} attribute. The value is {@value #METHOD}.
      */
-    public static final String METHOD = "generateIntegers";
+    public static final String METHOD = "generateIntegerSequences";
 
     /**
      * Creates a new instance. This constructor sets the {@code method} attribute with {@value #METHOD}.
      */
     public GenerateIntegerSequencesRequest() {
-        super();
-        setMethod(METHOD);
+        super(METHOD);
     }
 }

@@ -1,16 +1,18 @@
 package com.github.jinahya.org.random.api.r2.bind.basic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.github.jinahya.org.random.api.r2.bind.RandomOrgRequest;
 import com.github.jinahya.org.random.api.r2.bind.RandomOrgRequestParams;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 
 /**
  * The request object for {@value #METHOD}.
@@ -18,26 +20,29 @@ import javax.validation.constraints.Pattern;
 @Slf4j
 public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRequest.Params> {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static abstract class AbstractElement extends RandomOrgRequestParams {
 
-        public static final int MIN_MIN = -1000000000;
+        public static final int MIN_MIN = -1000000000; // -1e9
 
-        public static final int MAX_MIN = +1000000000;
+        public static final int MAX_MIN = +1000000000; // +1e9
 
-        public static final int MIN_MAX = -1000000000;
+        public static final int MIN_MAX = MIN_MIN; //-1000000000; // -1e9
 
-        public static final int MAX_MAX = +1000000000;
+        public static final int MAX_MAX = MAX_MIN; //+1000000000; // +1e9
 
         @Override
         public String toString() {
-            return super.toString() + "{" +
-                   ",min=" + min +
-                   ",max=" + max +
-                   ",replacement=" + replacement +
-                   ",base=" + base +
-                   "}";
+            return super.toString() + "{"
+                   + ",min=" + min
+                   + ",max=" + max
+                   + ",replacement=" + replacement
+                   + ",base=" + base
+                   + "}";
         }
 
+        @JsonIgnore
+        @JsonbTransient
         @AssertTrue(message = "min must be less than or equal to max")
         private boolean isMinIsLessThanOrEqualsToMax() {
             return min <= max;
@@ -103,13 +108,6 @@ public class GenerateIntegersRequest extends RandomOrgRequest<GenerateIntegersRe
      * Creates a new instance. This constructor sets the {@code method} attribute with {@value #METHOD}.
      */
     public GenerateIntegersRequest() {
-        super();
-        setMethod(METHOD);
-    }
-
-    @Pattern(regexp = METHOD)
-    @Override
-    public String getMethod() {
-        return super.getMethod();
+        super(METHOD);
     }
 }
