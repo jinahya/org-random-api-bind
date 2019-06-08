@@ -66,13 +66,13 @@ public class GenerateIntegersResponse extends RandomOrgResponse<GenerateIntegers
 
         @Override
         public String toString() {
-            return super.toString() + "{" +
-                   "random=" + random +
-                   ",bitsUsed=" + bitsUsed +
-                   ",bitsLeft=" + bitsLeft +
-                   ",requestsLeft=" + requestsLeft +
-                   ",advisoryDelay=" + advisoryDelay +
-                   "}";
+            return super.toString() + "{"
+                   + "random=" + random
+                   + ",bitsUsed=" + bitsUsed
+                   + ",bitsLeft=" + bitsLeft
+                   + ",requestsLeft=" + requestsLeft
+                   + ",advisoryDelay=" + advisoryDelay
+                   + "}";
         }
 
         @Valid
