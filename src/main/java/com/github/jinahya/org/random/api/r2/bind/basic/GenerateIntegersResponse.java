@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.jinahya.org.random.api.r2.bind.basic.GenerateIntegerSequencesRequest.Params.MAX_N;
@@ -46,6 +47,13 @@ public class GenerateIntegersResponse extends RandomOrgResponse<GenerateIntegers
                        "}";
             }
 
+            public List<Object> getData() {
+                if (data == null) {
+                    data = new ArrayList<>();
+                }
+                return data;
+            }
+
             public void setData(final List<Object> data) {
                 this.data = data;
                 if (this.data != null) {
@@ -55,7 +63,6 @@ public class GenerateIntegersResponse extends RandomOrgResponse<GenerateIntegers
 
             @Size(min = MIN_N, max = MAX_N)
             @NotNull
-            @Setter
             private List<@NotNull Object> data;
 
             @NotNull
